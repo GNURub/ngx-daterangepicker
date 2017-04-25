@@ -7,7 +7,7 @@
                   'theme-red': options.theme === 'red',
                   'theme-gray': options.theme === 'gray' }">
 
-    <div class="input-section" (click)="toggleCalendar($event, 'from')">
+    <div #fromInput class="input-section" (click)="toggleCalendar($event, 'from')">
         <span class="label-txt">{{options.presetNames[6]}}</span>
         <span class="value-txt">{{ dateFrom | date:options.dateFormat }}</span>
         <span class="cal-icon">
@@ -36,6 +36,7 @@
     </div>
 
     <div class="calendar" [ngClass]="{ 'is-opened': !!opened, 'is-to': opened === 'to' }">
+        <div class="arrow" [ngStyle]="{left: (arrowLeft || 60) + 'px'}"></div>
         <div class="calendar-container">
             <div class="controls">
         <span class="control-icon" (click)="prevMonth()">

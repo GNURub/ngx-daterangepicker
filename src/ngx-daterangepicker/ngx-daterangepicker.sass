@@ -1,4 +1,4 @@
-@charset 'utf8'
+@charset "utf8"
 
 @import '../styles/colors.sass'
 
@@ -10,7 +10,7 @@
   user-select: none
 
 .ngx-daterangepicker
-  width: 300px
+  width: 100%
   height: 50px
   background: $white
   display: inline-block
@@ -72,12 +72,19 @@
     z-index: 100
     display: none
 
-    &:after
-      content: ''
+    &.is-opened
+      display: block
+
+    &.is-to
+
+      .arrow
+        left: 215px
+
+    .arrow
       position: absolute
       display: block
-      width: 30px
-      height: 30px
+      min-width: 30px
+      min-height: 30px
       top: -16px
       left: 65px
       transform: rotate(45deg)
@@ -85,14 +92,6 @@
       border-left: 1px solid $blue
       background: $white
       transition: left 0.5s
-
-    &.is-opened
-      display: block
-
-    &.is-to
-
-      &:after
-        left: 215px
 
     .calendar-container
       display: inline-block
@@ -224,7 +223,7 @@
             fill: $cyan
     .calendar
       border-color: $cyan
-      &:after
+      .arrow
         border-top-color: $cyan
         border-left-color: $cyan
       .calendar-container
@@ -254,7 +253,7 @@
             fill: $teal
     .calendar
       border-color: $teal
-      &:after
+      .arrow
         border-top-color: $teal
         border-left-color: $teal
       .calendar-container
@@ -284,7 +283,7 @@
             fill: $cyan
     .calendar
       border-color: $cyan
-      &:after
+      .arrow
         border-top-color: $cyan
         border-left-color: $cyan
       .calendar-container
@@ -314,7 +313,7 @@
             fill: $grape
     .calendar
       border-color: $grape
-      &:after
+      .arrow
         border-top-color: $grape
         border-left-color: $grape
       .calendar-container
@@ -344,7 +343,7 @@
             fill: $red
     .calendar
       border-color: $red
-      &:after
+      .arrow
         border-top-color: $red
         border-left-color: $red
       .calendar-container
@@ -374,7 +373,7 @@
             fill: $gray
     .calendar
       border-color: $gray
-      &:after
+      .arrow
         border-top-color: $gray
         border-left-color: $gray
       .calendar-container

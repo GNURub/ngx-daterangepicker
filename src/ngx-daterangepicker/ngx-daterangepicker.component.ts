@@ -1,4 +1,7 @@
-import {Component, OnInit, HostListener, ElementRef, forwardRef, Input, OnChanges, SimpleChange} from '@angular/core';
+import {
+    Component, OnInit, HostListener, ElementRef, forwardRef, Input, OnChanges, SimpleChange,
+    ViewChild, AfterViewInit, ChangeDetectorRef
+} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import * as dateFns from 'date-fns';
 
@@ -52,7 +55,8 @@ export let DATERANGEPICKER_VALUE_ACCESSOR: any = {
     styleUrls: ['ngx-daterangepicker.sass'],
     providers: [DATERANGEPICKER_VALUE_ACCESSOR]
 })
-export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
+    @ViewChild('fromInput') fromInput: ElementRef;
     @Input() options: NgxDateRangePickerOptions;
 
     modelValue: string|Object;
@@ -72,14 +76,16 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         outputType: "string",
         startOfWeek: 0,
         date: null
-    }
+    };
+
+    arrowLeft: number;
 
     private onTouchedCallback: () => void = () => {
     };
     private onChangeCallback: (_: any) => void = () => {
     };
 
-    constructor(private elementRef: ElementRef) {
+    constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef) {
     }
 
     get value(): string|Object {
@@ -109,6 +115,12 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         this.onTouchedCallback = fn;
     }
 
+    ngAfterViewInit(): void {
+        this.arrowLeft = this.fromInput.nativeElement.offsetWidth;
+        console.log(this.arrowLeft)
+        this.cdr.detectChanges();
+    }
+
     ngOnInit() {
         this.opened = false;
 
@@ -123,7 +135,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
                 month: dateFns.getMonth(this.date),
                 day: dateFns.getDay(dateFns.addDays(this.date, 1))
             }
-        }
+        };
 
         this.options = this.options || this.defaultOptions;
         this.initNames();
@@ -195,6 +207,13 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     }
 
     toggleCalendar(e: MouseEvent, selection: 'from' | 'to'): void {
+        // Arrow position
+        if (selection == 'from') {
+            this.arrowLeft = this.fromInput.nativeElement.offsetWidth *  0.4;
+        } else {
+            this.arrowLeft = this.fromInput.nativeElement.offsetWidth + this.fromInput.nativeElement.offsetWidth * 0.4;
+        }
+
         if (this.opened && this.opened !== selection) {
             this.opened = selection;
         } else {
