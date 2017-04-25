@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jkuri/ngx-daterangepicker.git"
+    "url": "git+https://github.com/GNURub/ngx-daterangepicker.git"
   },
   "keywords": [
     "Angular",
