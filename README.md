@@ -20,12 +20,12 @@ yarn add ngx-daterangepicker --save
 ### Example
 
 ```ts
-import { NgDateRangePickerModule } from 'ngx-daterangepicker';
+import { NgxDateRangePickerModule } from 'ngx-daterangepicker';
 
 // app.module.ts
 @NgModule({
   ...
-  imports: [ ..., NgDateRangePickerModule, ... ],
+  imports: [ ..., NgxDateRangePickerModule, ... ],
   ...
 })
 export class AppModule { }
@@ -34,14 +34,14 @@ export class AppModule { }
 ```ts
 // app.component.ts
 import { Component, OnInit } from '@angular/core';
-import { NgDateRangePickerOptions } from 'ngx-daterangepicker';
+import { NgxDateRangePickerOptions } from 'ngx-daterangepicker';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  options: NgDateRangePickerOptions;
+  options: NgxDateRangePickerOptions;
 
   ngOnInit() {
     this.options = {
@@ -65,21 +65,36 @@ export class AppComponent {
 ### Configuration
 
 ```ts
-export interface NgDateRangePickerOptions {
-  theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray';
-  range: 'tm' | 'lm' | 'lw' | 'tw' | 'ty' | 'ly';
-  dayNames: string[];
-  presetNames: string[];
-  dateFormat: string;
-  outputFormat: string;
-  startOfWeek: number;
+export interface NgxDateRangePickerDates {
+    from: {
+        year: number,
+        month: number,
+        day: number
+    }
+    to: {
+        year: number,
+        month: number,
+        day: number
+    }
+}
+
+export interface NgxDateRangePickerOptions {
+    theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray';
+    range?: 'tm' | 'lm' | 'lw' | 'tw' | 'ty' | 'ly';
+    dayNames: string[];
+    presetNames: string[];
+    dateFormat: string;
+    outputFormat: string
+    startOfWeek: number;
+    outputType?: 'string' | 'object';
+    date?: NgxDateRangePickerDates;
 }
 ```
 
 ### Running the demo
 
 ```sh
-git clone https://github.com/jkuri/ngx-daterangepicker.git --depth 1
+git clone https://github.com/GNURub/ngx-daterangepicker.git --depth 1
 cd ngx-daterangepicker
 npm start
 ```
