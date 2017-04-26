@@ -46,12 +46,21 @@ export class AppComponent {
   ngOnInit() {
     this.options = {
 	  theme: 'default',
-	  range: 'tm',
+	  range: 'td',
 	  dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-	  presetNames: ['This Month', 'Last Month', 'This Week', 'Last Week', 'This Year', 'Last Year', 'Start', 'End'],
-	  dateFormat: 'yMd',
-	  outputFormat: 'DD/MM/YYYY',
-	  startOfWeek: 1
+	  menu: [
+          {alias: 'td', text: 'Today', operation: '0d'},
+          {alias: 'tm', text: 'This Month', operation: '0m'},
+          {alias: 'lm', text: 'Last Month', operation: '-1m'},
+          {alias: 'tw', text: 'This Week', operation: '0w'},
+          {alias: 'lw', text: 'Last Week', operation: '-1w'},
+          {alias: 'ty', text: 'This Month', operation: '0y'},
+          {alias: 'ly', text: 'Last Year', operation: '-1y'},
+      ],
+      dateFormat: 'yMd',
+      outputFormat: 'DD/MM/YYYY',
+      outputType: "string",
+      startOfWeek: 0
 	};
   }
 }
@@ -80,9 +89,10 @@ export interface NgxDateRangePickerDates {
 
 export interface NgxDateRangePickerOptions {
     theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray';
-    range?: 'tm' | 'lm' | 'lw' | 'tw' | 'ty' | 'ly';
+    range?: string;
     dayNames: string[];
-    presetNames: string[];
+    labels: string[];
+    menu: NgxMenuItem[];
     dateFormat: string;
     outputFormat: string
     startOfWeek: number;

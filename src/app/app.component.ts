@@ -13,7 +13,16 @@ export class AppComponent implements OnInit {
         this.options = {
             theme: 'default',
             dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            presetNames: ['This Month', 'Last Month', 'This Week', 'Last Week', 'This Year', 'Last Year', 'Start', 'End'],
+            labels: ['Start', 'End'],
+            menu: [
+                {alias: 'td', text: 'Today', operation: '0d'},
+                {alias: 'tm', text: 'This Month', operation: '0m'},
+                {alias: 'lm', text: 'Last Month', operation: '-1m'},
+                {alias: 'tw', text: 'This Week', operation: '0w'},
+                {alias: 'lw', text: 'Last Week', operation: '-1w'},
+                {alias: 'ty', text: 'This Month', operation: '0y'},
+                {alias: 'ly', text: 'Last Year', operation: '-1y'},
+            ],
             dateFormat: 'yMd',
             outputFormat: 'DD/MM/YYYY',
             startOfWeek: 0,

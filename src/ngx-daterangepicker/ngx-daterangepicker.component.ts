@@ -18,11 +18,19 @@ export interface NgxDateRangePickerDates {
     }
 }
 
+interface NgxMenuItem {
+    alias: string;
+    text: string;
+    operation: string;
+    active?: boolean;
+}
+
 export interface NgxDateRangePickerOptions {
     theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray';
-    range?: 'tm' | 'lm' | 'lw' | 'tw' | 'ty' | 'ly';
+    range?: string;
     dayNames: string[];
-    presetNames: string[];
+    labels: string[];
+    menu: NgxMenuItem[];
     dateFormat: string;
     outputFormat: string
     startOfWeek: number;
@@ -66,11 +74,20 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     dateTo: Date;
     dayNames: string[];
     days: IDay[];
-    range: 'tm' | 'lm' | 'lw' | 'tw' | 'ty' | 'ly';
+    range: string;
     defaultOptions: NgxDateRangePickerOptions = {
         theme: 'default',
         dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        presetNames: ['This Month', 'Last Month', 'This Week', 'Last Week', 'This Year', 'Last Year', 'Start', 'End'],
+        labels: ['Start', 'End'],
+        menu: [
+            {alias: 'td', text: 'Today', operation: '0d'},
+            {alias: 'tm', text: 'This Month', operation: '0m'},
+            {alias: 'lm', text: 'Last Month', operation: '-1m'},
+            {alias: 'tw', text: 'This Week', operation: '0w'},
+            {alias: 'lw', text: 'Last Week', operation: '-1w'},
+            {alias: 'ty', text: 'This Month', operation: '0y'},
+            {alias: 'ly', text: 'Last Year', operation: '-1y'},
+        ],
         dateFormat: 'yMd',
         outputFormat: 'DD/MM/YYYY',
         outputType: "string",
@@ -141,7 +158,9 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         this.initNames();
 
         if (this.options.range) {
-            this.selectRange(this.options.range);
+            this.selectRange(this.options.menu.filter((item) => {
+                return this.options.range == item.alias;
+            })[0]);
         } else {
             this.selectDates(this.options.date);
         }
@@ -209,7 +228,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     toggleCalendar(e: MouseEvent, selection: 'from' | 'to'): void {
         // Arrow position
         if (selection == 'from') {
-            this.arrowLeft = this.fromInput.nativeElement.offsetWidth *  0.4;
+            this.arrowLeft = this.fromInput.nativeElement.offsetWidth * 0.4;
         } else {
             this.arrowLeft = this.fromInput.nativeElement.offsetWidth + this.fromInput.nativeElement.offsetWidth * 0.4;
         }
@@ -272,42 +291,43 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         this.generateCalendar();
     }
 
-    selectRange(range: 'tm' | 'lm' | 'lw' | 'tw' | 'ty' | 'ly'): void {
+    selectRange(range: NgxMenuItem): void {
         let today = dateFns.startOfDay(new Date());
 
-        switch (range) {
-            case 'tm':
+        this.options.menu.map((item) => {
+            item.active = item.alias == range.alias;
+        });
+
+        let operand = range.operation[0] == "-" ? -1 : 1;
+        let amount = parseInt(range.operation);
+        let unit = range.operation.slice(-1);
+
+        switch (unit) {
+            case 'm':
+                today = dateFns.subMonths(today, amount * operand);
                 this.dateFrom = dateFns.startOfMonth(today);
                 this.dateTo = dateFns.endOfMonth(today);
                 break;
-            case 'lm':
-                today = dateFns.subMonths(today, 1);
-                this.dateFrom = dateFns.startOfMonth(today);
-                this.dateTo = dateFns.endOfMonth(today);
-                break;
-            case 'lw':
-                today = dateFns.subWeeks(today, 1);
+            case 'w':
+                today = dateFns.subWeeks(today, amount * operand);
                 this.dateFrom = dateFns.startOfWeek(today, {weekStartsOn: this.options.startOfWeek});
                 this.dateTo = dateFns.endOfWeek(today, {weekStartsOn: this.options.startOfWeek});
                 break;
-            case 'tw':
-                this.dateFrom = dateFns.startOfWeek(today, {weekStartsOn: this.options.startOfWeek});
-                this.dateTo = dateFns.endOfWeek(today, {weekStartsOn: this.options.startOfWeek});
-                break;
-            case 'ty':
+            case 'y':
+                today = dateFns.subYears(today, amount * operand);
                 this.dateFrom = dateFns.startOfYear(today);
                 this.dateTo = dateFns.endOfYear(today);
                 break;
-            case 'ly':
-                today = dateFns.subYears(today, 1);
-                this.dateFrom = dateFns.startOfYear(today);
-                this.dateTo = dateFns.endOfYear(today);
+            default:
+                today = dateFns.subDays(today, amount * operand);
+                this.dateFrom = dateFns.startOfDay(today);
+                this.dateTo = dateFns.endOfDay(today);
                 break;
         }
 
         this.date = dateFns.startOfDay(this.dateFrom);
 
-        this.range = range;
+        this.range = range.alias;
         this.generateCalendar();
     }
 
