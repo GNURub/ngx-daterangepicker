@@ -46,7 +46,7 @@ export class AppComponent {
   ngOnInit() {
     this.options = {
 	  theme: 'default',
-	  range: 'td',
+	  range: 'td', // The alias of item menu
 	  dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
 	  menu: [
           {alias: 'td', text: 'Today', operation: '0d'},

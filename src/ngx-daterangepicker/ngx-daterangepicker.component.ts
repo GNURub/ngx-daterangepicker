@@ -134,7 +134,6 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     ngAfterViewInit(): void {
         this.arrowLeft = this.fromInput.nativeElement.offsetWidth;
-        console.log(this.arrowLeft)
         this.cdr.detectChanges();
     }
 
@@ -162,6 +161,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
                 return this.options.range == item.alias;
             })[0]);
         } else {
+            if (!this.options.date) this.options.date = this.defaultOptions.date;
+
             this.selectDates(this.options.date);
         }
     }
@@ -304,22 +305,42 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
         switch (unit) {
             case 'm':
-                today = dateFns.subMonths(today, amount * operand);
+                if (operand < 0) {
+                    today = dateFns.subMonths(today, amount * operand);
+                } else {
+                    today = dateFns.addMonths(today, amount * operand);
+                }
+
                 this.dateFrom = dateFns.startOfMonth(today);
                 this.dateTo = dateFns.endOfMonth(today);
                 break;
             case 'w':
-                today = dateFns.subWeeks(today, amount * operand);
+                if (operand < 0) {
+                    today = dateFns.subWeeks(today, amount * operand);
+                } else {
+                    today = dateFns.addWeeks(today, amount * operand);
+                }
+
                 this.dateFrom = dateFns.startOfWeek(today, {weekStartsOn: this.options.startOfWeek});
                 this.dateTo = dateFns.endOfWeek(today, {weekStartsOn: this.options.startOfWeek});
                 break;
             case 'y':
-                today = dateFns.subYears(today, amount * operand);
+                if (operand < 0) {
+                    today = dateFns.subYears(today, amount * operand);
+                } else {
+                    today = dateFns.addYears(today, amount * operand);
+                }
+
                 this.dateFrom = dateFns.startOfYear(today);
                 this.dateTo = dateFns.endOfYear(today);
                 break;
             default:
-                today = dateFns.subDays(today, amount * operand);
+                if (operand < 0) {
+                    today = dateFns.subDays(today, amount * operand);
+                } else {
+                    today = dateFns.addDays(today, amount * operand);
+                }
+
                 this.dateFrom = dateFns.startOfDay(today);
                 this.dateTo = dateFns.endOfDay(today);
                 break;
