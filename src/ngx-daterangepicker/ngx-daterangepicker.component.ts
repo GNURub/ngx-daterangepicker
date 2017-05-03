@@ -18,7 +18,7 @@ export interface NgxDateRangePickerDates {
     }
 }
 
-interface NgxMenuItem {
+export interface NgxMenuItem {
     alias: string;
     text: string;
     operation: string;
