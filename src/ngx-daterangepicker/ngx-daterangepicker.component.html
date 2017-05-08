@@ -68,7 +68,7 @@
                'is-to': d.to,
                'is-first-weekday': d.weekday === 1 || d.firstMonthDay,
                'is-last-weekday': d.weekday === 0 || d.lastMonthDay }"
-                     (click)="selectDate($event, i)">
+                     (click)="selectDate($event, i)" (hover)="hoverDate($event, i)">
                     <span *ngIf="d.visible" class="day-num" [class.is-active]="d.from || d.to">{{ d.day }}</span>
                 </div>
             </div>

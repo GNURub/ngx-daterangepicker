@@ -269,6 +269,19 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         this.generateCalendar();
     }
 
+    hoverDate(e: MouseEvent, index: number): void {
+        e.preventDefault();
+        if (!this.dateFrom) return;
+
+        let selectedDate: Date = this.days[index].date;
+
+        if (dateFns.isAfter(selectedDate, this.dateFrom)) {
+            this.opened = "to";
+        } else {
+            this.opened = "from";
+        }
+    }
+
     prevMonth(): void {
         this.date = dateFns.subMonths(this.date, 1);
         this.generateCalendar();
