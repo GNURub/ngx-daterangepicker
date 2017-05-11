@@ -1,6 +1,6 @@
 {
   "name": "ngx-daterangepicker",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Angular PayPal Datepicker",
   "main": "bundles/ngx-daterangepicker.umd.js",
   "module": "index.js",
