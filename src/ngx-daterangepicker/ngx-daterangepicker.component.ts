@@ -272,6 +272,12 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
             this.arrowLeft = this.fromInput.nativeElement.offsetWidth + this.fromInput.nativeElement.offsetWidth * 0.4;
         }
 
+        if (this.options.menu && this.options.menu.length > 0) {
+            this.options.menu.map((item) => {
+                item.active = false;
+            });
+        }
+
         this.generateCalendar();
     }
 
