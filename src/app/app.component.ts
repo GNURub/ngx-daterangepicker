@@ -12,7 +12,6 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.options = {
             theme: 'default',
-            dayNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             labels: ['Start', 'End'],
             menu: [
                 {alias: 'td', text: 'Today', operation: '0d'},
@@ -28,6 +27,7 @@ export class AppComponent implements OnInit {
             outputFormat: 'DD/MM/YYYY',
             startOfWeek: 0,
             outputType: 'object',
+            locale: 'es',
             date: {
                 from: {
                     year: 2017,

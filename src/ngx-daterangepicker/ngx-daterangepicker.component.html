@@ -45,8 +45,8 @@
                   id="Shape" stroke="none" fill="#000000" fill-rule="nonzero"></path>
           </svg>
         </span>
-                <span class="control-title">
-          {{ date | date:'MMMM y' }}
+        <span class="control-title capitalize">
+          {{ date | ngxFormat:'MMMM YYYY':options.locale }}
         </span>
                 <span class="control-icon" (click)="nextMonth()">
           <svg width="13px" height="20px" viewBox="21 44 13 20">
@@ -66,8 +66,8 @@
                'is-within-range': d.isWithinRange,
                'is-from': d.from,
                'is-to': d.to,
-               'is-first-weekday': d.weekday === 1 || d.firstMonthDay,
-               'is-last-weekday': d.weekday === 0 || d.lastMonthDay }"
+               'is-first-weekday': d.weekday === d.startOfWeek || d.firstMonthDay,
+               'is-last-weekday': d.weekday === d.endOfWeek || d.lastMonthDay }"
                      (click)="selectDate($event, i)">
                     <span *ngIf="d.visible" class="day-num" [class.is-active]="d.from || d.to">{{ d.day }}</span>
                 </div>
