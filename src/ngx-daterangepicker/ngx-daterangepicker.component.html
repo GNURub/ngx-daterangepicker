@@ -9,7 +9,7 @@
 
     <div #fromInput class="input-section" (click)="toggleCalendar($event, 'from')">
         <span class="label-txt">{{options.labels[0]}}</span>
-        <span class="value-txt">{{ dateFrom | date:options.dateFormat }}</span>
+        <span class="value-txt">{{ dateFrom | ngxFormat: options.dateFormat }}</span>
         <span class="cal-icon">
       <svg width="94px" height="94px" viewBox="3 3 94 94" version="1.1">
         <g id="Group" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
@@ -23,7 +23,7 @@
 
     <div class="input-section" (click)="toggleCalendar($event, 'to')">
         <span class="label-txt">{{options.labels[1]}}</span>
-        <span class="value-txt">{{ dateTo | date:options.dateFormat }}</span>
+        <span class="value-txt">{{ dateTo | ngxFormat: options.dateFormat }}</span>
         <span class="cal-icon">
       <svg width="94px" height="94px" viewBox="3 3 94 94" version="1.1">
         <g id="Group" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"

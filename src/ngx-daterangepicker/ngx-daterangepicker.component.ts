@@ -90,7 +90,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
             {alias: 'ly', text: 'Last Year', operation: '-1y'},
         ],
         dateFormat: 'yMd',
-        outputFormat: 'DD/MM/YYYY',
+        outputFormat: 'DD-MM-YYYY',
         outputType: 'string',
         startOfWeek: 0,
         date: null
@@ -172,6 +172,11 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         this.options = this.options || this.defaultOptions;
+
+
+        if (this.options.date) {
+            this.selectDates(this.options.date);
+        }
 
         this.initNames();
     }
@@ -313,8 +318,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     }
 
     selectDates(dates: NgxDateRangePickerDates): void {
-        this.dateFrom = dateFns.startOfDay(new Date(dates.from.year, dates.from.month, dates.from.day));
-        this.dateTo = dateFns.startOfDay(new Date(dates.to.year, dates.to.month, dates.to.day));
+        this.dateFrom = dateFns.startOfDay(new Date(dates.from.year, dates.from.month - 1, dates.from.day));
+        this.dateTo = dateFns.startOfDay(new Date(dates.to.year, dates.to.month - 1, dates.to.day));
 
         if (dateFns.isAfter(this.dateFrom, this.dateTo)) {
             this.dateTo = this.dateFrom;

@@ -23,21 +23,21 @@ export class AppComponent implements OnInit {
                 {alias: 'ly', text: 'Last Year', operation: '-1y'},
                 {alias: 'ny', text: 'Next Year', operation: '+1y'},
             ],
-            dateFormat: 'yMd',
-            outputFormat: 'DD/MM/YYYY',
+            dateFormat: 'YYYY-MM-DD',
+            outputFormat: 'DD-MM-YYYY',
             startOfWeek: 0,
             outputType: 'object',
             locale: 'es',
             date: {
                 from: {
                     year: 2017,
-                    month: 1,
+                    month: 3,
                     day: 5
                 },
                 to: {
                     year: 2017,
-                    month: 1,
-                    day: 5
+                    month: 3,
+                    day: 6
                 }
             }
         };

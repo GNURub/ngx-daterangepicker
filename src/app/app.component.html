@@ -52,6 +52,36 @@
                                 <input type="text" class="input" [(ngModel)]="options.outputFormat">
                             </span>
                         </div>
+                        <div class="control is-horizontal">
+                            <div class="control-label">
+                                <label class="label">Calendar format</label>
+                            </div>
+                            <span>
+                                <input type="text" class="input" [(ngModel)]="options.dateFormat">
+                            </span>
+                        </div>
+
+                        <div class="control is-horizontal">
+                            <div class="control-label ">
+                                <label class="label">Default from:</label>
+                            </div>
+                            <span>
+                                <input type="text" class="input" placeholder="DD" [(ngModel)]="options.date.from.day" style="width:50px"> //
+                                <input type="text" class="input" placeholder="MM" [(ngModel)]="options.date.from.month" style="width:50px"> //
+                                <input type="text" class="input" placeholder="YYYY" [(ngModel)]="options.date.from.year" style="width:100px">
+                            </span>
+                        </div>
+
+                        <div class="control is-horizontal">
+                            <div class="control-label ">
+                                <label class="label">Default to:</label>
+                            </div>
+                            <span>
+                                <input type="text" class="input" placeholder="DD" [(ngModel)]="options.date.to.day" style="width:50px"> //
+                                <input type="text" class="input" placeholder="MM" [(ngModel)]="options.date.to.month" style="width:50px"> //
+                                <input type="text" class="input" placeholder="YYYY" [(ngModel)]="options.date.to.year" style="width:100px">
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="column is-4 is-offset-4">

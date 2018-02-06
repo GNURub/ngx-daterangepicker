@@ -13,6 +13,6 @@ export class NgxFormatPipe implements PipeTransform {
       options.locale = locales[args[1]];
     }
 
-    return dateFns.format(value, args[0] || "DD/MM/YYYY", options);
+    return dateFns.format(value, args[0] || "DD-MM-YYYY", options);
   }
 }
