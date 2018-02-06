@@ -5,6 +5,8 @@ This date range picker was heavily inspired by PayPal's datepicker as seen on we
 
 Demo: https://gnurub.github.io/ngx-daterangepicker/
 
+![View](https://image.ibb.co/dpAKbH/rangepicker.jpg)
+
 ### Installation
 
 ```sh
