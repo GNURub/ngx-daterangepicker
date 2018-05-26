@@ -65,7 +65,9 @@
                      [ngClass]="{
                'is-within-range': d.isWithinRange,
                'is-from': d.from,
-               'is-to': d.to }"
+               'is-to': d.to,
+               'is-first-weekday': d.firstMonthDay, 
+               'is-last-weekday': d.lastMonthDay }"
                      (click)="selectDate($event, i)">
                     <span *ngIf="d.visible" class="day-num" [class.is-active]="d.from || d.to">{{ d.day }}</span>
                 </div>
