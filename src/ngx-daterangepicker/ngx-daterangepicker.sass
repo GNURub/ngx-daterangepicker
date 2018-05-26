@@ -65,7 +65,7 @@
 
   .calendar
     +unselectable
-    width: 500px
+    width: auto
     border: 1px solid $blue
     border-radius: 7px
     background: $white
@@ -76,7 +76,7 @@
     display: none
 
     &.is-opened
-      display: block
+      display: flex
 
     &.is-to
 
@@ -179,21 +179,30 @@
 
     .side-container
       width: 158px
-      min-height: 390px
+      min-height: 390px;
       padding: 10px
       display: flex
       align-items: center
       position: relative
+      overflow: hidden
+      height: 100%;
 
       .side-container-buttons
         margin-top: 64px
-        width: 138px
+        width: 200px;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden
+        height: 390px
+        position: absolute
+        padding-bottom: 10px
+        
 
         .side-button
           background: $white
           border-radius: 15px
           border: 1px solid $blue
-          height: 30px
+          height: 35px
           width: 138px
           display: block
           text-align: center
