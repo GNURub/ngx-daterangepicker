@@ -9,6 +9,8 @@ Demo: https://gnurub.github.io/ngx-daterangepicker/
 
 ### Installation
 
+NB: if you're still on Angular > 6.0, please use ngx-daterangepicker 0.X.0
+
 ```sh
 npm install ngx-daterangepicker --save
 ```
