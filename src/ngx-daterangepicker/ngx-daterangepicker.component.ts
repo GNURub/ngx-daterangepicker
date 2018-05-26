@@ -80,19 +80,11 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         theme: 'default',
         labels: ['Start', 'End'],
         locale: 'en',
-        menu: [
-            {alias: 'td', text: 'Today', operation: '0d'},
-            {alias: 'tm', text: 'This Month', operation: '0m'},
-            {alias: 'lm', text: 'Last Month', operation: '-1m'},
-            {alias: 'tw', text: 'This Week', operation: '0w'},
-            {alias: 'lw', text: 'Last Week', operation: '-1w'},
-            {alias: 'ty', text: 'This Month', operation: '0y'},
-            {alias: 'ly', text: 'Last Year', operation: '-1y'},
-        ],
-        dateFormat: 'yMd',
+        menu: [],
+        dateFormat: 'DD-MM-YYYY',
         outputFormat: 'DD-MM-YYYY',
         outputType: 'string',
-        startOfWeek: 0,
+        startOfWeek: 1,
         date: null
     };
 
@@ -332,55 +324,95 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     selectRange(range: NgxMenuItem): void {
         let today = dateFns.startOfDay(new Date());
+        let fromDate = today;
+        let toDate = today;
 
         this.options.menu.map((item) => {
             item.active = item.alias === range.alias;
         });
 
-        let operand = range.operation[0] === '-' ? -1 : 1;
-        let amount = parseInt(range.operation, 10);
-        let unit = range.operation.slice(-1);
+        let operand = range.operation.charAt(0) === '-' ? -1 : 1;
+        let amount = Math.abs(parseInt(range.operation, 10));
+        let ope = range.operation.match(/[d,w,m,y]t?/);
+        let unit = ope.length > 0 ? ope[0] : '';
+       
 
         switch (unit) {
             case 'm':
-                if (operand < 0) {
-                    today = dateFns.subMonths(today, amount * operand);
-                } else {
-                    today = dateFns.addMonths(today, amount * operand);
+                if (amount) {
+                    fromDate = dateFns.addMonths(fromDate, amount * operand);
+                    toDate = dateFns.addMonths(fromDate, (amount - 1));
                 }
 
-                this.dateFrom = dateFns.startOfMonth(today);
-                this.dateTo = dateFns.endOfMonth(today);
+                this.dateFrom = dateFns.startOfMonth(fromDate);
+                this.dateTo = dateFns.endOfMonth(toDate);
                 break;
             case 'w':
-                if (operand < 0) {
-                    today = dateFns.subWeeks(today, amount * operand);
-                } else {
-                    today = dateFns.addWeeks(today, amount * operand);
+                if (amount) {
+                    fromDate = dateFns.addWeeks(fromDate, amount * operand);
+                    toDate = dateFns.addWeeks(fromDate, (amount - 1));
                 }
 
-                this.dateFrom = dateFns.startOfWeek(today, {weekStartsOn: this.options.startOfWeek});
-                this.dateTo = dateFns.endOfWeek(today, {weekStartsOn: this.options.startOfWeek});
+                this.dateFrom = dateFns.startOfWeek(fromDate, {weekStartsOn: this.options.startOfWeek});
+                this.dateTo = dateFns.endOfWeek(toDate, {weekStartsOn: this.options.startOfWeek});
                 break;
             case 'y':
-                if (operand < 0) {
-                    today = dateFns.subYears(today, amount * operand);
-                } else {
-                    today = dateFns.addYears(today, amount * operand);
+                if (amount) {
+                    fromDate = dateFns.addYears(fromDate, amount * operand);
+                    toDate = dateFns.addYears(fromDate, (amount - 1));
                 }
 
-                this.dateFrom = dateFns.startOfYear(today);
-                this.dateTo = dateFns.endOfYear(today);
+                this.dateFrom = dateFns.startOfYear(fromDate);
+                this.dateTo = dateFns.endOfYear(toDate);
+                break;
+            case 'd':
+                if (amount) {
+                    fromDate = dateFns.addDays(fromDate, amount * operand);
+                    toDate = dateFns.addDays(fromDate, (amount - 1));
+                }
+
+                this.dateFrom = dateFns.startOfDay(fromDate);
+                this.dateTo = dateFns.startOfDay(toDate);
+                break;
+            // From today
+            case 'mt':
+                if (operand < 0) {
+                    fromDate = dateFns.subMonths(today, amount);
+                } else {
+                    toDate =  dateFns.addMonths(today, amount);
+                }
+
+                this.dateFrom = fromDate;
+                this.dateTo = toDate;
+                break;
+            case 'wt':
+                if (operand < 0) {
+                    fromDate = dateFns.subWeeks(today, amount);
+                } else {
+                    toDate =  dateFns.addWeeks(today, amount);
+                }
+
+                this.dateFrom = fromDate;
+                this.dateTo = toDate;
+                break;
+            case 'yt':
+                if (operand < 0) {
+                    fromDate = dateFns.subYears(today, amount);
+                } else {
+                    toDate =  dateFns.addYears(today, amount);
+                }
+
+                this.dateFrom = fromDate;
+                this.dateTo = toDate;
                 break;
             default:
                 if (operand < 0) {
-                    today = dateFns.subDays(today, amount * operand);
+                    fromDate = dateFns.subDays(today, amount);
                 } else {
-                    today = dateFns.addDays(today, amount * operand);
+                    toDate =  dateFns.addDays(today, amount);
                 }
-
-                this.dateFrom = dateFns.startOfDay(today);
-                this.dateTo = dateFns.endOfDay(today);
+                this.dateFrom = fromDate;
+                this.dateTo = toDate;
                 break;
         }
 
