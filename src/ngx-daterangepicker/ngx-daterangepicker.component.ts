@@ -67,9 +67,23 @@ export let DATERANGEPICKER_VALUE_ACCESSOR: any = {
 export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
     @ViewChild('fromInput') fromInput: ElementRef;
     @Input() options: NgxDateRangePickerOptions;
+    @Input()
+    set isOpen(open: false | 'from' | 'to') {
+        if (!open) {
+            this._opened = false;
+        } else if (open !== 'from' && open !== 'to') {
+            this._opened = open;
+        } else {
+            this._opened = 'from';
+        }
+    }
+
+    get isOpen(): false | 'from' | 'to' {
+        return this._opened;
+    }
 
     modelValue: string|Object;
-    opened: false | 'from' | 'to';
+    _opened: false | 'from' | 'to';
     date: Date;
     dateFrom: Date;
     dateTo: Date;
@@ -131,7 +145,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     }
 
     ngOnInit() {
-        this.opened = false;
+        this._opened = false;
 
         this.defaultOptions.date = {
             from: {
@@ -252,39 +266,39 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
             this.arrowLeft = this.fromInput.nativeElement.offsetWidth + this.fromInput.nativeElement.offsetWidth * 0.4;
         }
 
-        if (this.opened && this.opened !== selection) {
-            this.opened = selection;
+        if (this._opened && this._opened !== selection) {
+            this._opened = selection;
         } else {
-            this.opened = this.opened ? false : selection;
+            this._opened = this._opened ? false : selection;
         }
     }
 
     closeCalendar(e: MouseEvent): void {
-        this.opened = false;
+        this._opened = false;
     }
 
     selectDate(e: MouseEvent, index: number): void {
         e.preventDefault();
         let selectedDate: Date = this.days[index].date;
 
-        if ((this.opened === 'to' && dateFns.isBefore(selectedDate, this.dateFrom))) {
-            this.opened = 'from';
+        if ((this._opened === 'to' && dateFns.isBefore(selectedDate, this.dateFrom))) {
+            this._opened = 'from';
         }
 
-        if ((this.opened === 'from' && dateFns.isAfter(selectedDate, this.dateTo))) {
+        if ((this._opened === 'from' && dateFns.isAfter(selectedDate, this.dateTo))) {
             this.dateFrom = selectedDate;
             this.dateTo = selectedDate;
         }
 
-        if (this.opened === 'from') {
+        if (this._opened === 'from') {
             this.dateFrom = selectedDate;
-            this.opened = 'to';
-        } else if (this.opened === 'to') {
+            this._opened = 'to';
+        } else if (this._opened === 'to') {
             this.dateTo = selectedDate;
-            this.opened = 'from';
+            this._opened = 'from';
         }
 
-        if (this.opened === 'from') {
+        if (this._opened === 'from') {
             this.arrowLeft = this.fromInput.nativeElement.offsetWidth * 0.4;
         } else {
             this.arrowLeft = this.fromInput.nativeElement.offsetWidth + this.fromInput.nativeElement.offsetWidth * 0.4;
@@ -426,7 +440,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     handleBlurClick(e: MouseEvent) {
         let target = e.srcElement || e.target;
         if (!this.elementRef.nativeElement.contains(e.target) && !(<Element>target).classList.contains('day-num')) {
-            this.opened = false;
+            this._opened = false;
         }
     }
 }

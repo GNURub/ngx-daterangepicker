@@ -1,5 +1,5 @@
 <div class="ngx-daterangepicker"
-     [ngClass]="{ 'is-active': !!opened,
+     [ngClass]="{ 'is-active': !!isOpen,
                   'theme-green': options.theme === 'green',
                   'theme-teal': options.theme === 'teal',
                   'theme-cyan': options.theme === 'cyan',
@@ -35,7 +35,7 @@
     </span>
     </div>
 
-    <div class="calendar" [ngClass]="{ 'is-opened': !!opened, 'is-to': opened === 'to' }">
+    <div class="calendar" [ngClass]="{ 'is-opened': !!isOpen, 'is-to': isOpen === 'to' }">
         <div class="arrow" [ngStyle]="{left: (arrowLeft || 60) + 'px'}"></div>
         <div class="calendar-container">
             <div class="controls">
