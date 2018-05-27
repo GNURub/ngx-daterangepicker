@@ -5,20 +5,20 @@ This date range picker was heavily inspired by PayPal's datepicker as seen on we
 
 Demo: https://gnurub.github.io/ngx-daterangepicker/
 
-![View](http://storage9.static.itmages.com/i/18/0206/h_1517919951_8181263_7820d6930b.jpeg)
+![View](./screen.jpeg)
 
 ### Installation
 
-NB: if you're still on Angular > 6.0, please use ngx-daterangepicker 0.X.0
+NB: if you're still on Angular < 6.0, please use ngx-daterangepicker 0.X.0
 
 ```sh
 npm install ngx-daterangepicker --save
 ```
 
-or
+or with YARN
 
 ```sh
-yarn add ngx-daterangepicker --save
+yarn add ngx-daterangepicker
 ```
 
 ### Example
@@ -60,6 +60,7 @@ export class AppComponent {
                 {alias: 'ty', text: 'This Year', operation: '0y'},
                 {alias: 'ly', text: 'Last Year', operation: '-1y'},
                 {alias: 'ny', text: 'Next Year', operation: '+1y'},
+                {alias: 'lyt', text: 'Last year from today', operation: '-1yt'},
             ],
             dateFormat: 'YYYY-MM-DD',
             outputFormat: 'DD-MM-YYYY',
