@@ -145,6 +145,7 @@
 
         .day
           width: calc(300px / 7)
+          height: calc(300px / 7)
           font-size: 13px
           color: $grey
           display: block
@@ -163,15 +164,15 @@
             border-bottom-left-radius: 50%
 
           &.is-to, &.is-last-weekday
-            border-top-right-radius: 50%
-            border-bottom-right-radius: 50%
+            border-top-right-radius: 100%
+            border-bottom-right-radius: 100%
 
           .day-num
             display: flex
             justify-content: center
             align-items: center
             float: left
-            width: calc(300px / 7)
+            width: 100%
             height: 100%
             border-radius: 50%
             padding: 10px 15px
