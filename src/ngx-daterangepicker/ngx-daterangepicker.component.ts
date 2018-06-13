@@ -37,6 +37,7 @@ export interface NgxDateRangePickerOptions {
     startOfWeek: number;
     outputType?: 'string' | 'object';
     date?: NgxDateRangePickerDates;
+    mobilePx?: number;
 }
 
 export interface IDay {
@@ -78,6 +79,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         }
     }
 
+    public mobileMode = false;
+
     get isOpen(): false | 'from' | 'to' {
         return this._opened;
     }
@@ -99,7 +102,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         outputFormat: 'DD-MM-YYYY',
         outputType: 'string',
         startOfWeek: 1,
-        date: null
+        date: null,
+        mobilePx: 545
     };
 
     arrowLeft: number;
@@ -144,6 +148,12 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         this.cdr.detectChanges();
     }
 
+    @HostListener('window:resize', ['$event'])
+    onResize() {
+        this.mobileMode = !!(this.options.mobilePx && window.innerWidth < this.options.mobilePx);
+        console.log(this.mobileMode)
+    }
+
     ngOnInit() {
         this._opened = false;
 
@@ -161,8 +171,10 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         };
 
         this.options = this.options || this.defaultOptions;
+        this.options.mobilePx = this.options.mobilePx == undefined ? this.defaultOptions.mobilePx : this.options.mobilePx;
         this.initNames();
-
+        this.onResize();
+;
         if (this.options.range) {
             this.selectRange(this.options.menu.filter((item) => {
                 return this.options.range === item.alias;
