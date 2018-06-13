@@ -35,7 +35,7 @@
     </span>
     </div>
 
-    <div class="calendar" [ngClass]="{ 'is-opened': !!isOpen, 'is-to': isOpen === 'to' }">
+    <div class="calendar" [ngClass]="{ 'is-opened': !!isOpen, 'is-to': isOpen === 'to', 'mobile': mobileMode }">
         <div class="arrow" [ngStyle]="{left: (arrowLeft || 60) + 'px'}"></div>
         <div class="calendar-container">
             <div class="controls">
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-        <div class="side-container" *ngIf="options.menu && options.menu.length > 0">
+        <div class="side-container" *ngIf="options.menu && options.menu.length > 0 && !mobileMode">
             <div class="side-container-buttons">
                 <button type="button" class="side-button" *ngFor="let range of options.menu" (click)="selectRange(range)"
                         [class.is-active]="range.active">{{range.text}}
