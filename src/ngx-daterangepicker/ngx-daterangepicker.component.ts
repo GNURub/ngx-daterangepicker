@@ -150,8 +150,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     @HostListener('window:resize', ['$event'])
     onResize() {
-        this.mobileMode = !!(this.options.mobilePx && window.innerWidth < this.options.mobilePx);
-        console.log(this.mobileMode)
+        this.mobileMode = (this.options.mobilePx && window.innerWidth < this.options.mobilePx);
     }
 
     ngOnInit() {
@@ -174,7 +173,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         this.options.mobilePx = this.options.mobilePx == undefined ? this.defaultOptions.mobilePx : this.options.mobilePx;
         this.initNames();
         this.onResize();
-;
+
         if (this.options.range) {
             this.selectRange(this.options.menu.filter((item) => {
                 return this.options.range === item.alias;
@@ -359,9 +358,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
         let operand = range.operation.charAt(0) === '-' ? -1 : 1;
         let amount = Math.abs(parseInt(range.operation, 10));
-        let ope = range.operation.match(/[d,w,m,y]t?/);
+        let ope = range.operation.match(/([dwmy])t?/);
         let unit = ope.length > 0 ? ope[0] : '';
-       
 
         switch (unit) {
             case 'm':
