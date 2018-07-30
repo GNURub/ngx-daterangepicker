@@ -190,6 +190,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
             this.selectDates(this.options.date);
         }
+
+        this.setOutput();
     }
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
@@ -266,6 +268,13 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         }
 
         this.days = prevMonthDays.concat(days);
+        this.setOutput();
+    }
+
+    /**
+     * Setea la la salida
+     */
+    private setOutput() {
         if (this.options.outputType === 'object') {
             this.value = {
                 from: dateFns.format(this.dateFrom, this.options.outputFormat),
