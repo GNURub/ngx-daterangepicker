@@ -10,7 +10,7 @@
                                 <button class="delete"></button>
                             </div>
                             <div class="message-body">
-                                Value: {{ value | json }}
+                                Value: {{ form.value.date | json }}
                             </div>
                         </article>
                     </div>
@@ -85,8 +85,8 @@
                     </div>
                 </div>
                 <div class="column is-4 is-offset-4">
-                    <div class="is-fullwidth has-text-centered">
-                        <ngx-daterangepicker [(ngModel)]="value" [options]="options"></ngx-daterangepicker>
+                    <div class="is-fullwidth has-text-centered" [formGroup]="form">
+                        <ngx-daterangepicker formControlName="date" [options]="options"></ngx-daterangepicker>
                     </div>
                 </div>
             </div>

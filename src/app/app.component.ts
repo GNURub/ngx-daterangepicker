@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgxDateRangePickerOptions} from '../ngx-daterangepicker';
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
     selector: 'app-root',
@@ -8,6 +9,10 @@ import {NgxDateRangePickerOptions} from '../ngx-daterangepicker';
 export class AppComponent implements OnInit {
     value: string|Object;
     options: NgxDateRangePickerOptions;
+
+    form = new FormGroup({
+        date: new FormControl(null)
+    });
 
     ngOnInit() {
         this.options = {
@@ -40,14 +45,10 @@ export class AppComponent implements OnInit {
             locale: 'es',
             date: {
                 from: {
-                    year: 2017,
-                    month: 3,
-                    day: 5
+                    date: new Date()
                 },
                 to: {
-                    year: 2017,
-                    month: 3,
-                    day: 6
+                    date: new Date((new Date()).setDate((new Date()).getDate() + 1))
                 }
             }
         };
