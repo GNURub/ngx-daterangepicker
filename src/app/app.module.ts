@@ -4,6 +4,7 @@ import {NgModule, ApplicationRef} from '@angular/core';
 import {removeNgStyles, createNewHosts, createInputTransfer} from '@angularclass/hmr';
 import {AppComponent} from './app.component';
 import {NgxDateRangePickerModule} from '../ngx-daterangepicker';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -12,7 +13,8 @@ import {NgxDateRangePickerModule} from '../ngx-daterangepicker';
     imports: [
         BrowserModule,
         CommonModule,
-        NgxDateRangePickerModule
+        NgxDateRangePickerModule,
+        ReactiveFormsModule
     ],
     bootstrap: [AppComponent]
 })

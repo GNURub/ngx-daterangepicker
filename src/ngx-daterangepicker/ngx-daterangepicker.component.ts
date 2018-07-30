@@ -125,11 +125,12 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         if (!value) {
             return;
         }
+
         this.modelValue = value;
         this.onChangeCallback(value);
     }
 
-    writeValue(value: string) {
+    writeValue(value: string|Object) {
         if (!value) {
             return;
         }
@@ -146,7 +147,10 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     ngAfterViewInit(): void {
         this.arrowLeft = this.fromInput.nativeElement.offsetWidth;
+        // Retrasamos los cambios
         this.cdr.detectChanges();
+
+        this.setOutput();
     }
 
     @HostListener('window:resize', ['$event'])
