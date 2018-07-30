@@ -6,17 +6,15 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import * as dateFns from 'date-fns';
 import {locales} from './constants'
 
+export interface NgxDateRangePickerDate {
+    year?: number,
+    month?: number,
+    day?: number,
+    date?: Date,
+}
 export interface NgxDateRangePickerDates {
-    from: {
-        year: number,
-        month: number,
-        day: number
-    }
-    to: {
-        year: number,
-        month: number,
-        day: number
-    }
+    from: NgxDateRangePickerDate;
+    to: NgxDateRangePickerDate;
 }
 
 export interface NgxMenuItem {
@@ -38,6 +36,7 @@ export interface NgxDateRangePickerOptions {
     outputType?: 'string' | 'object';
     date?: NgxDateRangePickerDates;
     mobilePx?: number;
+    disablePassDate?: boolean;
 }
 
 export interface IDay {
@@ -51,6 +50,7 @@ export interface IDay {
     from: boolean;
     to: boolean;
     isWithinRange: boolean;
+    disabled: boolean;
 }
 
 export let DATERANGEPICKER_VALUE_ACCESSOR: any = {
@@ -103,7 +103,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         outputType: 'string',
         startOfWeek: 1,
         date: null,
-        mobilePx: 545
+        mobilePx: 545,
+        disablePassDate: false
     };
 
     arrowLeft: number;
@@ -156,16 +157,20 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     ngOnInit() {
         this._opened = false;
 
+        const from = this.date;
+        const to = dateFns.addDays(this.date, 1);
         this.defaultOptions.date = {
             from: {
-                year: dateFns.getYear(this.date),
-                month: dateFns.getMonth(this.date),
-                day: dateFns.getDay(this.date)
+                year: dateFns.getYear(from),
+                month: dateFns.getMonth(from),
+                day: dateFns.getDay(from),
+                date: from
             },
             to: {
-                year: dateFns.getYear(this.date),
-                month: dateFns.getMonth(this.date),
-                day: dateFns.getDay(dateFns.addDays(this.date, 1))
+                year: dateFns.getYear(to),
+                month: dateFns.getMonth(to),
+                day: dateFns.getDay(to),
+                date: to
             }
         };
 
@@ -221,8 +226,10 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         let days: IDay[] = dateFns.eachDay(start, end).map(d => {
             let startOfWeek = this.options.startOfWeek;
             let endOfWeek = startOfWeek === 0 ? 6 : 0;
+
             return {
                 date: d,
+                disabled: dateFns.isBefore(d, new Date()) && this.options.disablePassDate,
                 day: dateFns.getDate(d),
                 weekday:  dateFns.getDay(d),
                 startOfWeek,
@@ -244,6 +251,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
                 let d = dateFns.subDays(start, prevMonthDayNum - i);
                 return {
                     date: d,
+                    disabled: dateFns.isBefore(d, new Date()) && this.options.disablePassDate,
                     day: dateFns.getDate(d),
                     weekday: dateFns.getDay(d),
                     firstMonthDay: dateFns.isFirstDayOfMonth(d),
@@ -290,7 +298,12 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     selectDate(e: MouseEvent, index: number): void {
         e.preventDefault();
-        let selectedDate: Date = this.days[index].date;
+        let selectedDay = this.days[index];
+        let selectedDate: Date = selectedDay.date;
+
+        if (selectedDay.disabled) {
+            return;
+        }
 
         if ((this._opened === 'to' && dateFns.isBefore(selectedDate, this.dateFrom))) {
             this._opened = 'from';
@@ -335,8 +348,10 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     }
 
     selectDates(dates: NgxDateRangePickerDates): void {
-        this.dateFrom = dateFns.startOfDay(new Date(dates.from.year, dates.from.month - 1, dates.from.day));
-        this.dateTo = dateFns.startOfDay(new Date(dates.to.year, dates.to.month - 1, dates.to.day));
+        this.dateFrom = dates.from.date && dateFns.isValid(dates.from.date) ?
+            dates.from.date : dateFns.startOfDay(new Date(dates.from.year, dates.from.month - 1, dates.from.day));
+        this.dateTo = dates.to.date && dateFns.isValid(dates.to.date) ?
+            dates.to.date : dateFns.startOfDay(new Date(dates.to.year, dates.to.month - 1, dates.to.day));
 
         if (dateFns.isAfter(this.dateFrom, this.dateTo)) {
             this.dateTo = this.dateFrom;
