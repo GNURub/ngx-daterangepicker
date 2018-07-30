@@ -348,10 +348,10 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     }
 
     selectDates(dates: NgxDateRangePickerDates): void {
-        this.dateFrom = dates.from.date && dateFns.isValid(dates.from.date) ?
-            dates.from.date : dateFns.startOfDay(new Date(dates.from.year, dates.from.month - 1, dates.from.day));
-        this.dateTo = dates.to.date && dateFns.isValid(dates.to.date) ?
-            dates.to.date : dateFns.startOfDay(new Date(dates.to.year, dates.to.month - 1, dates.to.day));
+        this.dateFrom = dates.from.date && dateFns.isValid(new Date(dates.from.date)) ?
+            new Date(dates.from.date) : dateFns.startOfDay(new Date(dates.from.year, dates.from.month - 1, dates.from.day));
+        this.dateTo = dates.to.date && dateFns.isValid(new Date(dates.to.date)) ?
+            new Date(dates.to.date) : dateFns.startOfDay(new Date(dates.to.year, dates.to.month - 1, dates.to.day));
 
         if (dateFns.isAfter(this.dateFrom, this.dateTo)) {
             this.dateTo = this.dateFrom;
