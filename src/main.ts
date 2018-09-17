@@ -1,12 +1,12 @@
-import './polyfills';
-import './styles';
-
+import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/';
-import { bootloader } from '@angularclass/hmr';
 
-export function app() {
-  return platformBrowserDynamic().bootstrapModule(AppModule);
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
 }
 
-bootloader(app);
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.log(err));
