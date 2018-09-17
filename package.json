@@ -1,6 +1,6 @@
 {
   "name": "ngx-daterangepicker-demo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,7 +11,7 @@
     "e2e": "ng e2e",
     "prepublish": "npm run build && npm run build:pro"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/common": "^6.0.3",
     "@angular/core": "^6.0.3",
