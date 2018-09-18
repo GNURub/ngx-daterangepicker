@@ -4,17 +4,18 @@
 @import 'colors.scss';
 @import 'fonts.scss';
 
-html, body {
+html,
+body {
   font-family: $open-sans;
   background: $background;
 }
 
 .hero {
-    background: $background;
+  background: $background;
 }
 
 .notification {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 
@@ -22,15 +23,17 @@ html, body {
 input.input {
   border: 1px solid $black !important;
 }
+
 .select {
   select {
     border: 1px solid $black !important;
   }
+
   &:after {
     border-color: $black;
-  } 
+  }
 }
-  
+
 
 .centered {
   display: flex;

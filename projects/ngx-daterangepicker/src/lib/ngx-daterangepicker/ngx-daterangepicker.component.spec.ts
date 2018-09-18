@@ -8,9 +8,9 @@ describe('NgxDaterangepickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgxDateRangePickerComponent ]
+      declarations: [NgxDateRangePickerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
