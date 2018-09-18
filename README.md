@@ -106,16 +106,16 @@ export interface NgxDateRangePickerOptions {
 }
 
 export interface NgxDateRangePickerDates {
-    from: {
+    from: Date | {
         year: number,
         month: number,
         day: number
-    }
-    to: {
+    };
+    to: Date | {
         year: number,
         month: number,
-        day: number
-    }
+        day: number,
+    };
 }
 ```
 

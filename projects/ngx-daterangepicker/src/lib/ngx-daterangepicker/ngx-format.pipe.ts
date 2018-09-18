@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as dateFns from 'date-fns';
-import {locales} from './constants';
+import { locales } from './constants';
 
 @Pipe({
   name: 'ngxFormat'
