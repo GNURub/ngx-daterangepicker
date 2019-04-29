@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NgxDateRangePickerOptions } from 'ngx-daterangepicker';
+import {Component, OnInit, ViewChild} from "@angular/core";
+import { NgxDateRangePickerOptions } from '../../projects/ngx-daterangepicker/src/public_api';
+import {NgxDateRangePickerComponent} from "../../projects/ngx-daterangepicker/src/lib/ngx-daterangepicker/ngx-daterangepicker.component";
 
 @Component({
     selector: 'ld-root',
@@ -8,6 +9,9 @@ import { NgxDateRangePickerOptions } from 'ngx-daterangepicker';
 export class AppComponent implements OnInit {
     value: string | Object;
     options: NgxDateRangePickerOptions;
+
+    @ViewChild('calendar')
+    private ngxDateRangePicker: NgxDateRangePickerComponent;
 
     ngOnInit() {
         const today = new Date();
@@ -47,5 +51,9 @@ export class AppComponent implements OnInit {
                 to: tomorrow
             }
         };
+    }
+
+    toggle() {
+        this.ngxDateRangePicker.toggle();
     }
 }

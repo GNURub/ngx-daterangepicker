@@ -2,9 +2,9 @@ import {
     Component, OnInit, HostListener, ElementRef, forwardRef, Input, OnChanges, SimpleChange,
     ViewChild, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import * as dateFns from 'date-fns';
-import { locales } from './constants';
+import {locales} from './constants';
 
 export interface NgxDateRangePickerDates {
     from: Date | {
@@ -92,6 +92,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     private onTouchedCallback: () => void = () => {
     }
+
     private onChangeCallback: (_: any) => void = () => {
     }
 
@@ -176,7 +177,7 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
 
     getDayOfWeek(day: number): string {
         const date = new Date();
-        const dayOfWeek = dateFns.format(dateFns.setDay(date, day, { weekStartsOn: 1 }), 'dd', { locale: locales[this.options.locale] });
+        const dayOfWeek = dateFns.format(dateFns.setDay(date, day, {weekStartsOn: 1}), 'dd', {locale: locales[this.options.locale]});
         return dayOfWeek[0].toUpperCase() + dayOfWeek.substring(1);
     }
 
@@ -353,8 +354,8 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
                     toDate = dateFns.addWeeks(fromDate, (amount - 1));
                 }
 
-                this.dateFrom = dateFns.startOfWeek(fromDate, { weekStartsOn: this.options.startOfWeek });
-                this.dateTo = dateFns.endOfWeek(toDate, { weekStartsOn: this.options.startOfWeek });
+                this.dateFrom = dateFns.startOfWeek(fromDate, {weekStartsOn: this.options.startOfWeek});
+                this.dateTo = dateFns.endOfWeek(toDate, {weekStartsOn: this.options.startOfWeek});
                 break;
             case 'y':
                 if (amount) {
@@ -428,5 +429,31 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         if (!this.elementRef.nativeElement.contains(e.target) && !(<Element>target).classList.contains('day-num')) {
             this.opened = false;
         }
+    }
+
+    /**
+     * Method to open calendar
+     */
+    public open(opened: 'from' | 'to' = 'from') {
+        this.toggleCalendar(null, opened);
+    }
+
+    /**
+     * Method to close calendar
+     */
+    public close() {
+        this.opened = false;
+    }
+
+    /**
+     * Method to toggle calendar
+     */
+    public toggle() {
+        if (!!this.opened) {
+            this.close();
+            return;
+        }
+
+        this.open();
     }
 }
