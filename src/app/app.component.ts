@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { NgxDateRangePickerOptions } from '../../projects/ngx-daterangepicker/src/public_api';
-import {NgxDateRangePickerComponent} from "../../projects/ngx-daterangepicker/src/lib/ngx-daterangepicker/ngx-daterangepicker.component";
+import {NgxDateRangePickerComponent} from '../../projects/ngx-daterangepicker/src/lib/ngx-daterangepicker/ngx-daterangepicker.component';
 
 @Component({
     selector: 'ld-root',
@@ -46,6 +46,16 @@ export class AppComponent implements OnInit {
             startOfWeek: 1,
             outputType: 'object',
             locale: 'es',
+            minDate: {
+                day: null,
+                month: null,
+                year: null
+            },
+            maxDate: {
+                day: null,
+                month: null,
+                year: null
+            },
             date: {
                 from: today,
                 to: tomorrow
