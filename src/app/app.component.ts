@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
     value: string | Object;
     options: NgxDateRangePickerOptions;
 
-    @ViewChild('calendar')
+    @ViewChild('calendar', {static: true})
     private ngxDateRangePicker: NgxDateRangePickerComponent;
 
     ngOnInit() {
