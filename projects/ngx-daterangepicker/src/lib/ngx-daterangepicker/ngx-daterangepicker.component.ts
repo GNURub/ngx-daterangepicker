@@ -36,6 +36,16 @@ export interface NgxDateRangePickerOptions {
     outputFormat: string;
     startOfWeek: number;
     outputType?: 'string' | 'object';
+    minDate?: Date | {
+        year: number,
+        month: number,
+        day: number,
+    };
+    maxDate?: Date | {
+        year: number,
+        month: number,
+        day: number,
+    };
     date?: NgxDateRangePickerDates;
 }
 
@@ -65,7 +75,7 @@ export let DATERANGEPICKER_VALUE_ACCESSOR: any = {
     providers: [DATERANGEPICKER_VALUE_ACCESSOR]
 })
 export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
-    @ViewChild('fromInput') fromInput: ElementRef;
+    @ViewChild('fromInput', { static: true }) fromInput: ElementRef<HTMLDivElement>;
     @Input() options: NgxDateRangePickerOptions;
 
     modelValue: string | Object;
@@ -91,10 +101,10 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     arrowLeft: number;
 
     private onTouchedCallback: () => void = () => {
-    }
+    };
 
     private onChangeCallback: (_: any) => void = () => {
-    }
+    };
 
     constructor(private elementRef: ElementRef, private cdr: ChangeDetectorRef) {
     }
@@ -260,6 +270,13 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         e.preventDefault();
         const selectedDate: Date = this.days[index].date;
 
+        if ((this.getDate(this.options.minDate) &&
+            !dateFns.isAfter(dateFns.startOfDay(selectedDate), this.getDate(this.options.minDate))) ||
+            (this.getDate(this.options.maxDate) &&
+                !dateFns.isBefore(dateFns.startOfDay(selectedDate), this.getDate(this.options.maxDate)))) {
+            return;
+        }
+
         if ((this.opened === 'to' && dateFns.isBefore(selectedDate, this.dateFrom))) {
             this.opened = 'from';
         }
@@ -303,17 +320,9 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
     }
 
     selectDates(dates: NgxDateRangePickerDates): void {
-        if (dates.from instanceof Date) {
-            this.dateFrom = dates.from;
-        } else {
-            this.dateFrom = dateFns.startOfDay(new Date(dates.from.year, dates.from.month - 1, dates.from.day));
-        }
+        this.dateFrom = this.getDate(dates.from);
 
-        if (dates.to instanceof Date) {
-            this.dateTo = dates.to;
-        } else {
-            this.dateTo = dateFns.startOfDay(new Date(dates.to.year, dates.to.month - 1, dates.to.day));
-        }
+        this.dateTo = this.getDate(dates.to);
 
         if (dateFns.isAfter(this.dateFrom, this.dateTo)) {
             this.dateTo = this.dateFrom;
@@ -455,5 +464,21 @@ export class NgxDateRangePickerComponent implements ControlValueAccessor, OnInit
         }
 
         this.open();
+    }
+
+    private getDate(date: Date | { year: number, month: number, day: number }): Date {
+        if (!date) {
+            return null;
+        }
+
+        if (date instanceof Date) {
+            return dateFns.startOfDay(date);
+        }
+
+        if (date instanceof Object && date.year && date.month && date.day) {
+            return dateFns.startOfDay(new Date(date.year, date.month - 1, date.day));
+        }
+
+        return null;
     }
 }

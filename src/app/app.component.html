@@ -91,12 +91,39 @@
                                        style="width:100px">
                             </span>
                         </div>
+
+                        <div class="control is-horizontal">
+                            <div class="control-label ">
+                                <label class="label">Min date to:</label>
+                            </div>
+                            <span>
+                                <input type="text" class="input" placeholder="DD" [(ngModel)]="options.minDate.day" style="width:50px">
+                                //
+                                <input type="text" class="input" placeholder="MM" [(ngModel)]="options.minDate.month"
+                                       style="width:50px">
+                                //
+                                <input type="text" class="input" placeholder="YYYY" [(ngModel)]="options.minDate.year"
+                                       style="width:100px">
+                            </span>
+                        </div>
+
+                        <div class="control is-horizontal">
+                            <div class="control-label ">
+                                <label class="label">Max date to:</label>
+                            </div>
+                            <span>
+                                <input type="text" class="input" placeholder="DD" [(ngModel)]="options.maxDate.day" style="width:50px">
+                                //
+                                <input type="text" class="input" placeholder="MM" [(ngModel)]="options.maxDate.month"
+                                       style="width:50px">
+                                //
+                                <input type="text" class="input" placeholder="YYYY" [(ngModel)]="options.maxDate.year"
+                                       style="width:100px">
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="column is-4 is-offset-4">
-                    <div class="is-fullwidth has-text-centered">
-                        <button type="button" (click)="toggle()">Toggle</button>
-                    </div>
 
                     <div class="is-fullwidth has-text-centered">
                         <ngx-daterangepicker #calendar [(ngModel)]="value" [options]="options"></ngx-daterangepicker>
